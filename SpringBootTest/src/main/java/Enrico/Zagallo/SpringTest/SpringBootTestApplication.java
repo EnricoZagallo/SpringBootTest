@@ -1,11 +1,12 @@
-package Enrico.Zagallo.SpringTest.Start;
+package Enrico.Zagallo.SpringTest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "Enrico.Zagallo.SpringTest")
+
 public class SpringBootTestApplication {
 
 	public static void main(String[] args) {
