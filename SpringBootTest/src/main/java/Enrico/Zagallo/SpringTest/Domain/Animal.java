@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Anime {
-    private long id;
+public class Animal {
+    private Long id;
     private String name;
 
 
