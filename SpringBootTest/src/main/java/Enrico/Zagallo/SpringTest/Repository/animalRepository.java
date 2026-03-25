@@ -1,11 +1,9 @@
 package Enrico.Zagallo.SpringTest.Repository;
 
 import Enrico.Zagallo.SpringTest.Domain.Animal;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface animalRepository {
-    List<Animal> listAll();
-
-
+public interface animalRepository extends JpaRepository<Animal,Long> {
 }
