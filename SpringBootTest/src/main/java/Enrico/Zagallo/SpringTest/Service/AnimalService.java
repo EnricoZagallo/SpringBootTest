@@ -1,45 +1,45 @@
 package Enrico.Zagallo.SpringTest.Service;
 
 import Enrico.Zagallo.SpringTest.Domain.Animal;
+import Enrico.Zagallo.SpringTest.Repository.AnimalRepository;
+import Enrico.Zagallo.SpringTest.requests.AnimalPostRequestBody;
+import Enrico.Zagallo.SpringTest.requests.AnimalPutRequestBody;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
+@RequiredArgsConstructor
 public class AnimalService {
-    private static List<Animal> animals;
 
-    static {
-        animals = new ArrayList<>(List.of(new Animal(1L, "Cachorro"), new Animal(2L, "Gato")));
-    }
+    private final AnimalRepository animalRepository;
 
     public List<Animal> listall() {
-        return animals;
+        return animalRepository.findAll();
     }
 
-    public Animal findById(Long id) {
-        return animals.stream()
-                .filter(animal -> animal.getId() == id)
-                .findFirst()
+    public Animal findByIdOrThrowBadRequestException(Long id) {
+        return animalRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
     }
 
-    public Animal save(Animal animal) {
-        animal.setId(ThreadLocalRandom.current().nextLong(3, 1_000_000));
-        animals.add(animal);
-        return animal;
+    public Animal save(AnimalPostRequestBody animalPostRequestBody) {
+        return animalRepository.save(Animal.builder().name(animalPostRequestBody.getName()).build() );
     }
 
     public void delete(long id) {
-        animals.remove(findById(id));
+        animalRepository.delete(findByIdOrThrowBadRequestException(id));
     }
 
-    public void replace(Animal animal) {
-        delete(animal.getId());
-        animals.add(animal);
+    public void replace(AnimalPutRequestBody animalPutRequestBody) {
+       Animal savedAnimal = findByIdOrThrowBadRequestException(animalPutRequestBody.getId());
+       Animal animal = Animal.builder()
+                .id(savedAnimal.getId())
+                .name(animalPutRequestBody.getName())
+                .build();
+        animalRepository.save(animal);
     }
 }

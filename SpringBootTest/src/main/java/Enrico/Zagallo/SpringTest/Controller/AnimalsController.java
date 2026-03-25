@@ -3,6 +3,8 @@ package Enrico.Zagallo.SpringTest.Controller;
 import Enrico.Zagallo.SpringTest.Domain.Animal;
 import Enrico.Zagallo.SpringTest.Service.AnimalService;
 import Enrico.Zagallo.SpringTest.Util.DateUtil;
+import Enrico.Zagallo.SpringTest.requests.AnimalPostRequestBody;
+import Enrico.Zagallo.SpringTest.requests.AnimalPutRequestBody;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -32,12 +34,12 @@ public class AnimalsController {
     @GetMapping(path = "/{id}")
     public ResponseEntity<Animal> findById(@PathVariable Long id) {
 
-        return ResponseEntity.ok(animeService.findById(id));
+        return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
 
     @PostMapping
-    public ResponseEntity<Animal> save(@RequestBody Animal animal) {
-        return new ResponseEntity<>(animeService.save(animal), HttpStatus.CREATED);
+    public ResponseEntity<Animal> save(@RequestBody AnimalPostRequestBody animalPostRequestBody) {
+        return new ResponseEntity<>(animeService.save(animalPostRequestBody), HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -46,8 +48,8 @@ public class AnimalsController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PutMapping
-    public ResponseEntity<Void> replace(@RequestBody Animal animal) {
-        animeService.replace(animal);
+    public ResponseEntity<Void> replace(@RequestBody AnimalPutRequestBody animalPutRequestBody) {
+        animeService.replace(animalPutRequestBody);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
