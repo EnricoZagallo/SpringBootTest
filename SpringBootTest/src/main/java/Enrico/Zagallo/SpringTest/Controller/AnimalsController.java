@@ -5,6 +5,8 @@ import Enrico.Zagallo.SpringTest.Service.AnimalService;
 import Enrico.Zagallo.SpringTest.Util.DateUtil;
 import Enrico.Zagallo.SpringTest.requests.AnimalPostRequestBody;
 import Enrico.Zagallo.SpringTest.requests.AnimalPutRequestBody;
+//import jakarta.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -43,7 +45,7 @@ public class AnimalsController {
     }
 
     @PostMapping
-    public ResponseEntity<Animal> save(@RequestBody AnimalPostRequestBody animalPostRequestBody) {
+    public ResponseEntity<Animal> save(@RequestBody @Valid AnimalPostRequestBody animalPostRequestBody) {
         return new ResponseEntity<>(animeService.save(animalPostRequestBody), HttpStatus.CREATED);
     }
 

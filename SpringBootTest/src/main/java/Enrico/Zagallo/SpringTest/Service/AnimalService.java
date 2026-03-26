@@ -5,6 +5,7 @@ import Enrico.Zagallo.SpringTest.Repository.AnimalRepository;
 import Enrico.Zagallo.SpringTest.exception.BadRequestException;
 import Enrico.Zagallo.SpringTest.requests.AnimalPostRequestBody;
 import Enrico.Zagallo.SpringTest.requests.AnimalPutRequestBody;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mapper.AnimalMapper;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ public class AnimalService {
                 .orElseThrow(() -> new BadRequestException("Anime not found"));
     }
 
+    @Transactional
     public Animal save(AnimalPostRequestBody animalPostRequestBody) {
         return animalRepository.save(AnimalMapper.INSTANCE.toanimal(animalPostRequestBody));
     }
