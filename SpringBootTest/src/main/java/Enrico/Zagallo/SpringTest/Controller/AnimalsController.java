@@ -36,6 +36,11 @@ public class AnimalsController {
 
         return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
+    @GetMapping(path = "/{name}")
+    public ResponseEntity<List<Animal>> findByName(@RequestParam String  name) {
+
+        return ResponseEntity.ok(animeService.findByName(name));
+    }
 
     @PostMapping
     public ResponseEntity<Animal> save(@RequestBody AnimalPostRequestBody animalPostRequestBody) {

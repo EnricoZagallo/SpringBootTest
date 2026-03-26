@@ -3,6 +3,8 @@ package Enrico.Zagallo.SpringTest.Repository;
 import Enrico.Zagallo.SpringTest.Domain.Animal;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AnimalRepository extends JpaRepository<Animal,Long> {
+import java.util.List;
 
+public interface AnimalRepository extends JpaRepository<Animal,Long> {
+    List<Animal> findByName(String name);
 }

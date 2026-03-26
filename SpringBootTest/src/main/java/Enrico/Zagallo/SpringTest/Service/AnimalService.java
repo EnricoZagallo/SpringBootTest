@@ -2,9 +2,11 @@ package Enrico.Zagallo.SpringTest.Service;
 
 import Enrico.Zagallo.SpringTest.Domain.Animal;
 import Enrico.Zagallo.SpringTest.Repository.AnimalRepository;
+import Enrico.Zagallo.SpringTest.exception.BadRequestException;
 import Enrico.Zagallo.SpringTest.requests.AnimalPostRequestBody;
 import Enrico.Zagallo.SpringTest.requests.AnimalPutRequestBody;
 import lombok.RequiredArgsConstructor;
+import mapper.AnimalMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -21,13 +23,17 @@ public class AnimalService {
         return animalRepository.findAll();
     }
 
+    public List<Animal> findByName(String name) {
+        return animalRepository.findByName(name);
+    }
+
     public Animal findByIdOrThrowBadRequestException(Long id) {
         return animalRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Anime not found"));
+                .orElseThrow(() -> new BadRequestException("Anime not found"));
     }
 
     public Animal save(AnimalPostRequestBody animalPostRequestBody) {
-        return animalRepository.save(Animal.builder().name(animalPostRequestBody.getName()).build() );
+        return animalRepository.save(AnimalMapper.INSTANCE.toanimal(animalPostRequestBody));
     }
 
     public void delete(long id) {
@@ -36,10 +42,8 @@ public class AnimalService {
 
     public void replace(AnimalPutRequestBody animalPutRequestBody) {
        Animal savedAnimal = findByIdOrThrowBadRequestException(animalPutRequestBody.getId());
-       Animal animal = Animal.builder()
-                .id(savedAnimal.getId())
-                .name(animalPutRequestBody.getName())
-                .build();
+        Animal animal = AnimalMapper.INSTANCE.toanimal(animalPutRequestBody);
+        animal.setId(savedAnimal.getId());
         animalRepository.save(animal);
     }
 }
