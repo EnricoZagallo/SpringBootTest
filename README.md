@@ -22,7 +22,8 @@ Consolidar conhecimentos em desenvolvimento backend, com foco em:
 - Spring Boot  
 - Spring Web  
 - Spring Data JPA  
-- Maven/Gradle  
+- Maven/Gradle
+- Docker
 - Banco de dados (H2, MySQL ou outro conforme evolução dos estudos)  
 
 ---
