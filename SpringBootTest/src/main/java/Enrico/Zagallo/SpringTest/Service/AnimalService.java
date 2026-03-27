@@ -8,6 +8,8 @@ import Enrico.Zagallo.SpringTest.requests.AnimalPutRequestBody;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mapper.AnimalMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,8 +22,8 @@ public class AnimalService {
 
     private final AnimalRepository animalRepository;
 
-    public List<Animal> listall() {
-        return animalRepository.findAll();
+    public Page<Animal> listall(Pageable pageable) {
+        return animalRepository.findAll(pageable);
     }
 
     public List<Animal> findByName(String name) {
