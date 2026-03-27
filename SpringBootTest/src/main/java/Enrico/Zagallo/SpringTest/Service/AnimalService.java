@@ -25,6 +25,9 @@ public class AnimalService {
     public Page<Animal> listall(Pageable pageable) {
         return animalRepository.findAll(pageable);
     }
+    public List<Animal> listAllNonPageable() {
+        return animalRepository.findAll();
+    }
 
     public List<Animal> findByName(String name) {
         return animalRepository.findByName(name);
@@ -50,4 +53,6 @@ public class AnimalService {
         animal.setId(savedAnimal.getId());
         animalRepository.save(animal);
     }
+
+
 }

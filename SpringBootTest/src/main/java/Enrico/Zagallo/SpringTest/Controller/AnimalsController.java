@@ -34,15 +34,19 @@ public class AnimalsController {
         log.info(dateUtil.formatLocalDateTimeToDataBaseStyle(LocalDateTime.now()));
         return ResponseEntity.ok(animeService.listall(pageable));
     }
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<Animal>> listAll() {
+        log.info(dateUtil.formatLocalDateTimeToDataBaseStyle(LocalDateTime.now()));
+        return ResponseEntity.ok(animeService.listAllNonPageable());
+    }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<Animal> findById(@PathVariable Long id) {
 
         return ResponseEntity.ok(animeService.findByIdOrThrowBadRequestException(id));
     }
-    @GetMapping(path = "/{name}")
-    public ResponseEntity<List<Animal>> findByName(@RequestParam String  name) {
-
+    @GetMapping(path = "/find")
+    public ResponseEntity<List<Animal>> findByName(@RequestParam String name) {
         return ResponseEntity.ok(animeService.findByName(name));
     }
 
